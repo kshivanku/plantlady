@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {Home} from './Pages/Home'
+import {PlantPage} from './Pages/PlantPage'
+import {Header} from './Components/Header'
+import Tabletop from 'tabletop';
+import {useEffect, useState} from 'react'
 import './App.css';
 
 function App() {
+  const [plantsData, setPlantsData] = useState([]);
+    useEffect(()=>{
+        Tabletop.init({
+            key: '1ebCYHung4m4wnVzKzxzyb-XTKvrimzYOPkz4FDp7GkQ',
+            callback: googleData => {
+                setPlantsData(googleData)
+        },
+        simpleSheet: true
+        })
+    }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" exact element={<Home plantsData={plantsData}/>} />
+        <Route path="/plantpage/:id" exact element={<PlantPage plantsData={plantsData}/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
