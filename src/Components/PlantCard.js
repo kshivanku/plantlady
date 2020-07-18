@@ -1,10 +1,12 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import '../App.css'
-import {motion} from 'framer-motion'
+import {motion, useViewportScroll, useTransform} from 'framer-motion'
 
 export const PlantCard = ({plantInfo}) => {
     const navigate = useNavigate();
+    const {scrollYProgress} = useViewportScroll();
+    const y = useTransform(scrollYProgress, [0, 1], [0, 200])
     const transition= {
         type: 'tween',
         duration: 0.5,
@@ -32,6 +34,7 @@ export const PlantCard = ({plantInfo}) => {
                     whileHover={{
                         scale: 1.1
                     }}
+                    style = {{y: y}}
                     transition={{
                         type: 'tween',
                         duration: 0.6,
