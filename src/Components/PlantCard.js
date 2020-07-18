@@ -1,14 +1,44 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import '../App.css'
+import {motion} from 'framer-motion'
 
 export const PlantCard = ({plantInfo}) => {
     const navigate = useNavigate();
-    console.log(navigate)
+    const transition= {
+        type: 'tween',
+        duration: 0.5,
+        ease: 'easeInOut'
+    }
+    const cardvariant = {
+        "hidden": {
+            opacity: 0,
+            y: 10
+        },
+        "visible": {
+            opacity: 1,
+            y: 0,
+            transition: {transition}
+        }
+    }
     return (
-        <div className="plantCard" onClick={()=> navigate(`plantpage/${plantInfo.id}`)}>
+        <motion.div 
+            className="plantCard" 
+            onClick={()=> navigate(`plantpage/${plantInfo.id}`)}
+            variants={cardvariant}
+            >
             <div className="plantCardImageContainer">
-                <img src={require(`../Images/${plantInfo.Image}.jpg`)}/>
+                <motion.img 
+                    whileHover={{
+                        scale: 1.1
+                    }}
+                    transition={{
+                        type: 'tween',
+                        duration: 0.6,
+                        ease: [0.43, 0.13, 0.23, 0.96]
+                    }}
+                    src={require(`../Images/${plantInfo.Image}.jpg`)}
+                />
             </div>
             <h1>{plantInfo.Name}</h1>
             <div>
@@ -21,6 +51,6 @@ export const PlantCard = ({plantInfo}) => {
                 <h3>Date Bought</h3>
                 <p>{plantInfo.DateBought}</p>
             </div>
-        </div>
+        </motion.div>
     )
 }
