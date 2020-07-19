@@ -149,4 +149,7 @@ body{
     grid-column: 1/-1;
     grid-row: -1;
   }
+  .plantDetailHeader {
+    padding: 0;
+  }
 }
