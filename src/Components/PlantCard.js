@@ -2,11 +2,16 @@ import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import '../App.css'
 import {motion, useViewportScroll, useTransform} from 'framer-motion'
+import watericon from '../Images/watering-icon.svg'
+import sunicon from '../Images/sun.svg'
+import soilicon from '../Images/soil.svg'
+import calendaricon from '../Images/calendar.svg'
 
 export const PlantCard = ({plantInfo}) => {
     const navigate = useNavigate();
     const {scrollYProgress} = useViewportScroll();
-    const y = useTransform(scrollYProgress, [0, 1], [0, 200])
+    const y_inside = useTransform(scrollYProgress, [0, 1], [0, 400])
+    const y_container = useTransform(scrollYProgress, [0, 1], [0, 100])
     const transition= {
         type: 'tween',
         duration: 0.5,
@@ -29,12 +34,15 @@ export const PlantCard = ({plantInfo}) => {
             onClick={()=> navigate(`plantpage/${plantInfo.id}`)}
             variants={cardvariant}
             >
-            <div className="plantCardImageContainer">
+            <motion.div 
+                className="plantCardImageContainer"
+                style = {{y: y_container}}
+            >
                 <motion.img 
                     whileHover={{
                         scale: 1.1
                     }}
-                    style = {{y: y}}
+                    style = {{y: y_inside}}
                     transition={{
                         type: 'tween',
                         duration: 0.6,
@@ -42,17 +50,29 @@ export const PlantCard = ({plantInfo}) => {
                     }}
                     src={require(`../Images/${plantInfo.Image}.jpg`)}
                 />
-            </div>
-            <h1>{plantInfo.Name}</h1>
-            <div>
-                <h3>Water</h3>
-                <p>{plantInfo.Water}</p>
-                <h3>Sunlight</h3>
-                <p>{plantInfo.Sunlight}</p>
-                <h3>Soil</h3>
-                <p>{plantInfo.Soil}</p>
-                <h3>Date Bought</h3>
-                <p>{plantInfo.DateBought}</p>
+            </motion.div>
+            <div className="plantDetails">
+                <div className="plantDetailHeader">
+                    <h1>{plantInfo.Name}</h1>
+                    <div className="plantDateBought">
+                        <img className="plantDateBought_icon" src={calendaricon} />
+                        <p className="plantDateBought_text">{plantInfo.DateBought}</p>
+                    </div>
+                </div>
+                <div className="platDetailList">
+                    <div className="plantDetailItem">
+                        <img className="plantDetailItem_icon" src={watericon} />
+                        <p className="plantDetailItem_text">{plantInfo.Water}</p>
+                    </div>
+                    <div className="plantDetailItem">
+                        <img className="plantDetailItem_icon" src={sunicon} />
+                        <p className="plantDetailItem_text">{plantInfo.Sunlight}</p>
+                    </div>
+                    <div className="plantDetailItem">
+                        <img className="plantDetailItem_icon" src={soilicon} />
+                        <p className="plantDetailItem_text">{plantInfo.Soil}</p>
+                    </div>
+                </div>
             </div>
         </motion.div>
     )
